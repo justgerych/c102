@@ -1,0 +1,85 @@
+alphabet = "abcdefghijklmnopqrstuvwxyz"
+def encrypt_vigenere(plaintext: str, keyword: str) -> str:
+    """
+   # >>> encrypt_vigenere("PYTHON", "A")
+    'PYTHON'
+   # >>> encrypt_vigenere("python", "a")
+    'python'
+   # >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
+    'LXFOPVEFRNHR'
+    """
+    ciphertext = ""
+
+    plaintext_Length = len(plaintext)
+    keyword_length = len(keyword)
+    keyword = keyword.lower()
+    key = keyword * (plaintext_Length // keyword_length)
+    for i in range(plaintext_Length % keyword_length):
+        key += keyword[i]
+
+    return_upper = False
+    for index, letter in enumerate(plaintext):
+        key_letter = key[index]
+        offset = alphabet.index(key_letter)
+        if letter in alphabet:
+            plain_letter = alphabet.index(letter)
+        else:
+            temp_alpha = alphabet.upper()
+            return_upper = True
+            plain_letter = temp_alpha.index(letter)
+
+        plain_letter += offset
+        if plain_letter > len(alphabet):
+            plain_letter -= len(alphabet)
+        ciphertext += alphabet[plain_letter]
+
+        if return_upper:
+            ciphertext = ciphertext.upper()
+        else:
+            ciphertext = ciphertext.lower()
+
+    return ciphertext
+
+
+def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
+    """
+   # >>> decrypt_vigenere("PYTHON", "A")
+    'PYTHON'
+   # >>> decrypt_vigenere("python", "a")
+    'python'
+   # >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
+    'ATTACKATDAWN'
+    """
+    plaintext = ""
+
+    cipher_Length = len(ciphertext)
+    keyword_length = len(keyword)
+    keyword = keyword.lower()
+    key = keyword * (cipher_Length // keyword_length)
+    for i in range(cipher_Length % keyword_length):
+        key += keyword[i]
+    return_upper = False
+
+    for index, letter in enumerate(ciphertext):
+        key_letter = key[index]
+        offset = alphabet.index(key_letter)
+        if letter in alphabet:
+            cipher_letter = alphabet.index(letter)
+        else:
+            temp_alpha = alphabet.upper()
+            return_upper = True
+            cipher_letter = temp_alpha.index(letter)
+
+        cipher_letter -= offset
+        if cipher_letter < 0:
+            cipher_letter += len(alphabet)
+        plaintext += alphabet[cipher_letter]
+
+    if return_upper:
+        plaintext = plaintext.upper()
+    else:
+        plaintext = plaintext.lower()
+    return plaintext
+
+print(encrypt_vigenere("ATTACKATDAWN", "LEMON"))
+print(decrypt_vigenere("LXFOPVEFRNHR", "LEMON"))
