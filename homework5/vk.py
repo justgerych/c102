@@ -157,16 +157,17 @@ def prepare(texts):
     pass
 
 def median(list_of_numbers):
-    sum = 0
-    for i in list_of_numbers:
-        sum += i
-    sum /= len(list_of_numbers)
-    print(sum)
+    list_of_numbers = sorted(list_of_numbers)
+    if len(list_of_numbers) != 0:
+        index = len(list_of_numbers) // 2
+        print(list_of_numbers[index])
+        return list_of_numbers[index]
 
-median([5,5,5,5,4,5])
+median([11,9,3,5,5])
+
 
 # age_predict(238472934)
-get_network([238472934, 313489913, 125483792, 81552651])
+#get_network([238472934, 313489913, 125483792, 81552651])
 # print(get_friends(238472934))
 # print(get_wall(domain="itmoru"))
 # a = get_wall(domain="itmoru")
